@@ -1,6 +1,8 @@
 import {search} from '../../services/search';
 import to from 'await-to-js';
 import {ToastAndroid} from 'react-native';
+import {storeData} from '../../utils/utils';
+import * as ACTION from '../actionType';
 
 let nextTodoId = 0;
 export const addTodo = text => {
@@ -44,3 +46,16 @@ export const searchAction = () => async dispatch => {
     songs: res.result.songs,
   });
 };
+
+export const toggleThemeAction = (payload) => async dispatch => {
+  try {
+    await storeData('theme', payload.theme);
+    dispatch({
+      type: ACTION.TOGGLE_THEME,
+      theme: payload.theme,
+    });
+  } catch (err) {
+  }
+};
+
+

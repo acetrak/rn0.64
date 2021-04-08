@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
-import { configureFonts, Colors } from 'react-native-paper';
+import {StyleSheet} from 'react-native';
+import {configureFonts, Colors, DefaultTheme} from 'react-native-paper';
 import color from 'color';
 
-const theme = StyleSheet.create({
+const common = StyleSheet.create({
   heading1: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -10,17 +10,22 @@ const theme = StyleSheet.create({
   },
 });
 
-export default {
-  dark: false,
+const light = {
+  ...DefaultTheme,
+  ...common,
+};
+
+const dark = {
+  dark: true,
   roundness: 4,
-  mode:'exact',
+  mode: 'exact',
   colors: {
     primary: '#6200ee',
     accent: '#03dac4',
     background: '#f6f6f6',
-    surface: Colors.white,
+    surface: '#000',
     error: '#B00020',
-    text: Colors.black,
+    text: Colors.white,
     onSurface: '#000000',
     disabled: color(Colors.black).alpha(0.26).rgb().string(),
     placeholder: color(Colors.black).alpha(0.54).rgb().string(),
@@ -31,5 +36,9 @@ export default {
   animation: {
     scale: 1.0,
   },
-  ...theme,
+  ...common,
+};
+
+export default {
+  dark, light,
 };

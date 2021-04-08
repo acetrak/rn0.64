@@ -1,26 +1,37 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import {
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableHighlight, StatusBar, View,
-  Image,
-} from 'react-native';
-import { Button, List, Appbar, Avatar, Switch } from 'react-native-paper';
-import { searchAction } from '../store/actions';
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import {FlatList, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {Appbar, Avatar, Button, Card, List, Paragraph, Switch, Title} from 'react-native-paper';
+import {searchAction, toggleThemeAction} from '../store/actions';
 import FlexibleModal from '../components/FlexibleModal';
 
+const LeftContent = props => <Avatar.Icon {...props} icon="folder" />;
+
+const MyComponent = () => (
+  <Card>
+    <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
+    <Card.Content>
+      <Title>Card title</Title>
+      <Paragraph>Card content</Paragraph>
+    </Card.Content>
+    <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
+    <Card.Actions>
+      <Button>Cancel</Button>
+      <Button>Ok</Button>
+    </Card.Actions>
+  </Card>
+);
+
 function Home(props) {
-  const { navigation } = props;
+  const {navigation} = props;
 
   const [visible, setVisible] = useState(false);
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const [isSwitchOn, setIsSwitchOn] = React.useState(props.theme.theme === 'dark');
 
 
   const list = props.muc;
 
-
+  console.log('Home', props.theme);
 
   const fetch = () => {
     props.dispatch(searchAction());
@@ -32,16 +43,24 @@ function Home(props) {
 
   const keyExtractor = (item, index) => index.toString();
 
-  const renderItem = ({ item, separators }) => (
+  const renderItem = ({item, separators}) => (
     <List.Item
       title={item.album.name}
       description={item.artists.map(o => o.name).join('-')}
-      left={props => <Avatar.Image {...props} source={{ uri: item.album.artist.img1v1Url }} />}
+      left={props => <Avatar.Image {...props} source={{uri: item.album.artist.img1v1Url}} />}
     />
   );
 
+  const onSwitchChange = () => {
+
+    props.dispatch(toggleThemeAction({theme: isSwitchOn ? 'light' : 'dark'})).then(() => {
+      setIsSwitchOn(!isSwitchOn);
+    });
+
+  };
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <StatusBar backgroundColor="#6200ee" />
       <Appbar.Header>
 
@@ -56,7 +75,7 @@ function Home(props) {
         <Text>Home</Text>
         <View style={styles.rowBetween}>
           <Text>黑暗模式</Text>
-          <Switch value={isSwitchOn} onValueChange={() => setIsSwitchOn(!isSwitchOn)} />
+          <Switch value={isSwitchOn} onValueChange={onSwitchChange} />
         </View>
 
 
@@ -68,6 +87,7 @@ function Home(props) {
 
         <Button mode="contained" onPress={() => setVisible(!visible)}>open modal</Button>
 
+        <MyComponent />
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={keyExtractor}
