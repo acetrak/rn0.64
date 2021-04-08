@@ -1,18 +1,26 @@
-import React, {useState} from 'react';
-import {connect} from 'react-redux';
-import {Text, SafeAreaView, FlatList, StyleSheet} from 'react-native';
-import {Button, Header, ListItem, Avatar} from 'react-native-elements';
-import {searchAction} from '../store/actions';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import {
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableHighlight, StatusBar, View,
+  Image,
+} from 'react-native';
+import { Button, List, Appbar, Avatar, Switch } from 'react-native-paper';
+import { searchAction } from '../store/actions';
 import FlexibleModal from '../components/FlexibleModal';
 
 function Home(props) {
-  const {navigation} = props;
+  const { navigation } = props;
 
   const [visible, setVisible] = useState(false);
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
-  // console.log(JSON.stringify(props.muc));
 
   const list = props.muc;
+
+
 
   const fetch = () => {
     props.dispatch(searchAction());
@@ -24,51 +32,65 @@ function Home(props) {
 
   const keyExtractor = (item, index) => index.toString();
 
-  const renderItem = ({item}) => (
-    <ListItem bottomDivider>
-      <Avatar source={{uri: item.album.artist.img1v1Url}} rounded />
-      <ListItem.Content>
-        <ListItem.Title>{item.album.name}</ListItem.Title>
-        <ListItem.Subtitle>
-          {item.artists.map(o => o.name).join('-')}
-        </ListItem.Subtitle>
-      </ListItem.Content>
-      <ListItem.Chevron />
-    </ListItem>
+  const renderItem = ({ item, separators }) => (
+    <List.Item
+      title={item.album.name}
+      description={item.artists.map(o => o.name).join('-')}
+      left={props => <Avatar.Image {...props} source={{ uri: item.album.artist.img1v1Url }} />}
+    />
   );
 
   return (
-    <SafeAreaView style={styles.body}>
-      <Header
-        leftComponent={{icon: 'menu', color: '#fff'}}
-        centerComponent={{text: '首页', style: {color: '#fff', fontSize: 18}}}
-        rightComponent={{icon: 'home', color: '#fff'}}
-      />
-      <Text>Home</Text>
-      <Button
-        raised
-        title="导航"
-        onPress={() => navigation.navigate('Guide')}
-      />
-      <Button disabled={list.length} raised title="fetch" onPress={fetch} />
+    <View style={{ flex: 1 }}>
+      <StatusBar backgroundColor="#6200ee" />
+      <Appbar.Header>
 
-      <Button raised title="open modal" onPress={() => setVisible(!visible)} />
+        <Appbar.Content title="Title" />
+        <Appbar.Action icon="magnify" />
+        <Appbar.Action icon="dots-vertical" />
+      </Appbar.Header>
 
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        keyExtractor={keyExtractor}
-        data={list}
-        renderItem={renderItem}
-      />
+      <View style={styles.body}>
 
+
+        <Text>Home</Text>
+        <View style={styles.rowBetween}>
+          <Text>黑暗模式</Text>
+          <Switch value={isSwitchOn} onValueChange={() => setIsSwitchOn(!isSwitchOn)} />
+        </View>
+
+
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate('Guide')}
+        >导航</Button>
+        <Button disabled={list.length} mode="contained" onPress={fetch}>fetch</Button>
+
+        <Button mode="contained" onPress={() => setVisible(!visible)}>open modal</Button>
+
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          keyExtractor={keyExtractor}
+          data={list}
+          renderItem={renderItem}
+        />
+
+      </View>
       <FlexibleModal visible={visible} onClose={onClose} />
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   body: {
     flex: 1,
+    paddingHorizontal: 15,
+  },
+  rowBetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 8,
   },
 });
 export default connect(state => state)(Home);

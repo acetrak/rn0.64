@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import {
   Animated,
   Dimensions,
@@ -9,14 +9,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {withTheme} from 'react-native-elements';
+import { withTheme } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
 const topOffset = 10;
 
 const FlexibleModal = props => {
+
   const modalVisible = props.visible;
-  const onClose = props.onClose;
+  const onClose = props.onClose || function () {
+  };
   const theme = props.theme;
 
   const anim = useRef(new Animated.Value(0)).current;
@@ -38,25 +40,26 @@ const FlexibleModal = props => {
     onPanResponderMove: (evt, gestureState) => {
       // 最近一次的移动距离为gestureState.move{X,Y}
 
-      let toValue = gestureState.moveY;
+      const canMove = gestureState.dy > 0;
 
-      if (gestureState.moveY < topOffset) {
-        toValue = topOffset;
+      if (canMove) {
+        Animated.spring(
+          anim, // 动画中的变量值
+          {
+            toValue: gestureState.dy, // 透明度最终变为1，即完全不透明
+            useNativeDriver: false,
+          },
+        ).start();
       }
-
-      Animated.spring(
-        anim, // 动画中的变量值
-        {
-          toValue, // 透明度最终变为1，即完全不透明
-          useNativeDriver: false,
-        },
-      ).start();
 
       // 从成为响应者开始时的累计手势移动距离为gestureState.d{x,y}
     },
     onPanResponderTerminationRequest: (evt, gestureState) => true,
     onPanResponderRelease: (evt, gestureState) => {
-      if (gestureState.moveY > windowHeight / 2) {
+
+      const hidden = gestureState.dy > windowHeight / 2 || gestureState.vy > 0.8;
+
+      if (hidden) {
         onClose(!modalVisible);
         anim.setValue(topOffset);
       } else {
@@ -86,10 +89,12 @@ const FlexibleModal = props => {
       visible={modalVisible}
       onRequestClose={() => {
         onClose(!modalVisible);
-      }}>
+      }}
+    >
       <Animated.View
-        style={{...styles.modalBody, marginTop: anim}}
-        {..._panResponder.panHandlers}>
+        style={{ ...styles.modalBody, marginTop: anim }}
+        {..._panResponder.panHandlers}
+      >
         <View style={styles.modalTitle}>
           <Text style={theme.heading1}>搜索</Text>
 
@@ -98,7 +103,8 @@ const FlexibleModal = props => {
             onPress={e => {
               e.preventDefault();
               onClose(!modalVisible);
-            }}>
+            }}
+          >
             <Text style={styles.textStyle}>关闭</Text>
           </TouchableOpacity>
         </View>
