@@ -16,8 +16,7 @@ const topOffset = 10;
 
 const FlexibleModal = props => {
   const modalVisible = props.visible;
-  const onClose = props.onClose || function () {
-  };
+  const onClose = props.onClose;
   const theme = props.theme;
 
   const anim = useRef(new Animated.Value(0)).current;
