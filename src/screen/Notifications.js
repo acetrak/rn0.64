@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View ,Dimensions,StatusBar,StyleSheet,} from 'react-native';
+import React from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
 
-import { TabView, SceneMap,TabBar } from 'react-native-tab-view';
+import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 
 const FirstRoute = () => (
   <View style={[styles.scene, { backgroundColor: '#ff4081' }]} />

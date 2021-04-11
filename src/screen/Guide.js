@@ -1,11 +1,13 @@
 import React from 'react';
-import { Text, View, StyleSheet, } from 'react-native';
-import { TextInput ,Searchbar,Snackbar  ,Button ,Avatar,  Card, Title, Paragraph} from 'react-native-paper';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Appbar, Avatar, Button, Card, Paragraph, Searchbar, TextInput, Title } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
-const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
+
+const LeftContent = props => <Avatar.Icon {...props} icon="folder" />;
 
 const MyComponent = () => (
-  <Card>
+  <Card style={styles.mb10}>
     <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
     <Card.Content>
       <Title>Card title</Title>
@@ -22,53 +24,61 @@ const MyComponent = () => (
 export default function Guide() {
   const [text, setText] = React.useState('');
   const [firstQuery, setFirstQuery] = React.useState('');
-  const [visible , setVisible ] = React.useState(false);
 
+
+  const navigation = useNavigation();
   return (
-    <View style={styles.body}>
-      <Text>Guide</Text>
+    <View style={{ flex: 1 }}>
+      <Appbar.Header>
 
-      <TextInput
-        dense
-        label="Email"
-        value={text}
-        onChangeText={text => setText(text)}
-      />
+        <Appbar.Content title="Guide" />
 
-      <Searchbar
-        placeholder="Search"
-        onChangeText={query => { setFirstQuery(query); }}
-        value={firstQuery}
-      />
+      </Appbar.Header>
 
-      <Button
-        onPress={() => setVisible(state => !state)}
-      >
-        {visible ? 'Hide' : 'Show'}
-      </Button>
+      <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
 
-      <Snackbar
-        visible={visible}
-        onDismiss={() => setVisible(state => !state)}
-        action={{
-          label: 'Undo',
-          onPress: () => {
-            // Do something
-          },
-        }}
-      >
-        Hey there! I'm a Snackbar.
-      </Snackbar>
 
-      <MyComponent/>
+
+        <TextInput
+          left={<TextInput.Icon name="alarm" />}
+          right={<TextInput.Icon name="close" />}
+          label="Email"
+          value={text}
+          onChangeText={text => setText(text)}
+          style={styles.mb10}
+        />
+
+        <Searchbar
+          placeholder="Search"
+          placeholderTextColor="#fff"
+          onChangeText={query => {
+            setFirstQuery(query);
+          }}
+          value={firstQuery}
+          style={styles.mb10}
+        />
+
+        <Button
+          style={styles.mb10}
+          mode="contained"
+          onPress={() => navigation.navigate('Setting')}
+        >导航到Setting页面</Button>
+
+
+        <MyComponent />
+        <MyComponent />
+
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   body: {
-    padding: 15,
-    flex:1,
-    backgroundColor:'#fff'
+    paddingHorizontal: 15,
+    flex: 1,
+  },
+  mb10: {
+    marginBottom: 10,
   },
 });

@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {connect} from 'react-redux';
-import {FlatList, StatusBar, StyleSheet, Text, View} from 'react-native';
-import {Appbar, Avatar, Button, Card, List, Paragraph, Switch, Title} from 'react-native-paper';
-import {searchAction, toggleThemeAction} from '../store/actions';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { FlatList, StatusBar, StyleSheet, View } from 'react-native';
+import { Appbar, Avatar, Button, Card, List, Paragraph, Switch, Text, Title } from 'react-native-paper';
+import { searchAction, toggleThemeAction } from '../store/actions';
 import FlexibleModal from '../components/FlexibleModal';
+import Setting from './pages/Setting';
 
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" />;
 
@@ -22,6 +23,7 @@ const MyComponent = () => (
   </Card>
 );
 
+
 function Home(props) {
   const {navigation} = props;
 
@@ -31,7 +33,6 @@ function Home(props) {
 
   const list = props.muc;
 
-  console.log('Home', props.theme);
 
   const fetch = () => {
     props.dispatch(searchAction());
@@ -45,6 +46,7 @@ function Home(props) {
 
   const renderItem = ({item, separators}) => (
     <List.Item
+      onPress={()=>{}}
       title={item.album.name}
       description={item.artists.map(o => o.name).join('-')}
       left={props => <Avatar.Image {...props} source={{uri: item.album.artist.img1v1Url}} />}
@@ -61,10 +63,12 @@ function Home(props) {
 
   return (
     <View style={{flex: 1}}>
+
+
       <StatusBar backgroundColor="#6200ee" />
       <Appbar.Header>
 
-        <Appbar.Content title="Title" />
+        <Appbar.Content title="Home" />
         <Appbar.Action icon="magnify" />
         <Appbar.Action icon="dots-vertical" />
       </Appbar.Header>
@@ -72,22 +76,26 @@ function Home(props) {
       <View style={styles.body}>
 
 
-        <Text>Home</Text>
-        <View style={styles.rowBetween}>
-          <Text>黑暗模式</Text>
-          <Switch value={isSwitchOn} onValueChange={onSwitchChange} />
-        </View>
+
+       <View style={{paddingHorizontal:15}}>
+         <View style={styles.rowBetween}>
+           <Text>黑暗模式</Text>
+           <Switch value={isSwitchOn} onValueChange={onSwitchChange} />
+         </View>
 
 
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate('Guide')}
-        >导航</Button>
-        <Button disabled={list.length} mode="contained" onPress={fetch}>fetch</Button>
+         <Button
+           style={styles.mb10}
+           mode="contained"
+           onPress={() => navigation.navigate('Setting')}
+         >导航到Setting页面</Button>
 
-        <Button mode="contained" onPress={() => setVisible(!visible)}>open modal</Button>
+         <Button style={styles.mb10} disabled={list.length} mode="contained" onPress={fetch}>fetch</Button>
 
-        <MyComponent />
+         <Button style={styles.mb10} mode="contained" onPress={() => setVisible(!visible)}>open modal</Button>
+       </View>
+
+        {/*<MyComponent />*/}
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={keyExtractor}
@@ -104,7 +112,10 @@ function Home(props) {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    paddingHorizontal: 15,
+
+  },
+  mb10:{
+    marginBottom:10
   },
   rowBetween: {
     flexDirection: 'row',

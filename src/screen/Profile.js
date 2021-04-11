@@ -1,16 +1,11 @@
 import React from 'react';
-import { StyleSheet,   View, StatusBar, ScrollView ,Image} from 'react-native';
-import { Appbar,Button, Banner,BottomNavigation, Text ,Chip  } from 'react-native-paper';
+import { StyleSheet, TouchableNativeFeedback, View } from 'react-native';
+import { Appbar, Button, Chip, Snackbar, Text } from 'react-native-paper';
 
-const MusicRoute = () => <Text>Music</Text>;
-
-const AlbumsRoute = () => <Text>Albums</Text>;
-
-const RecentsRoute = () => <Text>Recents</Text>;
 
 export default function Profile() {
 
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
 
   const _goBack = () => console.log('Went back');
 
@@ -18,79 +13,58 @@ export default function Profile() {
 
   const _handleMore = () => console.log('Shown more');
 
-
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'music', title: 'Music', icon: 'queue-music' },
-    { key: 'albums', title: 'Albums', icon: 'album' },
-    { key: 'recents', title: 'Recents', icon: 'history' },
-  ]);
-
-  const renderScene = BottomNavigation.SceneMap({
-    music: MusicRoute,
-    albums: AlbumsRoute,
-    recents: RecentsRoute,
-  });
-
   return (
     <View style={{flex: 1}}>
-
       <Appbar.Header>
-
-        <Appbar.Content title="Title" />
+        <Appbar.Content title="Profile" />
         <Appbar.Action icon="magnify" onPress={_handleSearch} />
         <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
       </Appbar.Header>
 
       <View style={styles.body}>
 
-        <Banner
+
+        <Button
+          style={styles.mb10}
+          mode="contained"
+          onPress={() => setVisible(state => !state)}
+        >
+          {visible ? 'Hide Searchbar' : 'Show Searchbar'}
+        </Button>
+
+        <Snackbar
           visible={visible}
-          actions={[
-            {
-              label: 'Fix it',
-              onPress: () => setVisible(false),
+          onDismiss={() => setVisible(state => !state)}
+          action={{
+            label: 'Undo',
+
+            onPress: () => {
+              // Do something
             },
-            {
-              label: 'Learn more',
-              onPress: () => setVisible(false),
-            },
-          ]}
-          icon={({size}) => (
-            <Image
-              source={{
-                uri: 'https://avatars3.githubusercontent.com/u/17571969?s=400&v=4',
-              }}
-              style={{
-                width: size,
-                height: size,
-              }}
-            />
-          )}>
-          There was a problem processing a transaction on your credit card.
-        </Banner>
-
-        <Text>Profile</Text>
-
-        <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
-          Press me
-        </Button>
-
-        <Button icon="camera"  onPress={() => console.log('Pressed')}>
-          Press me
-        </Button>
-
-        <Button icon="camera" mode="outlined" onPress={() => console.log('Pressed')}>
-          Press me
-        </Button>
+          }}
+        >
+          <Text style={{color:'#fff'}}>Hey there! I'm a Snackbar.</Text>
+        </Snackbar>
 
 
-        <View style={styles.row}>
+        <View style={{...styles.row,...styles.mb10}}>
           <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
           <Chip icon="information" mode={'outlined'} onPress={() => console.log('Pressed')}>Example Chip</Chip>
           <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
           <Chip icon="information" onPress={() => console.log('Pressed')}>Example Chip</Chip>
         </View>
+
+
+        <TouchableNativeFeedback
+          onPress={() => {
+
+          }}
+          background={TouchableNativeFeedback.Ripple('#ccc', false)}
+        >
+          <View style={styles.touchable}>
+            <Text style={styles.text}>TouchableNativeFeedback</Text>
+          </View>
+        </TouchableNativeFeedback>
 
       </View>
 
@@ -101,12 +75,17 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
   body: {
-    padding: 15,
+    paddingVertical:15,
     flex:1,
   },
   row:{
     flexDirection:'row',
     alignItems:'center',
     flexWrap:'wrap'
+  },
+  touchable: {  borderColor: "black", borderWidth: 1 ,width:180,height:50},
+  text: { alignSelf: "center" },
+  mb10:{
+    marginBottom:10
   }
 });

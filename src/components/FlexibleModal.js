@@ -5,21 +5,24 @@ import {
   Modal,
   PanResponder,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { withTheme } from 'react-native-paper';
+import {   Text,useTheme } from 'react-native-paper';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 const topOffset = 10;
 
 const FlexibleModal = props => {
+  const theme = useTheme();
 
-  const modalVisible = props.visible;
-  const onClose = props.onClose || function () {
-  };
-  const theme = props.theme;
+  const modalVisible = get(props, 'visible', false);
+  const onClose = get(props, 'onClose', () => {
+  });
+
+  const backgroundColor = get(theme, 'colors.surface', '#fff');
+  const textColor = get(theme, 'colors.text', '#fff');
 
   const anim = useRef(new Animated.Value(0)).current;
   const windowHeight = Dimensions.get('window').height;
@@ -92,11 +95,11 @@ const FlexibleModal = props => {
       }}
     >
       <Animated.View
-        style={{ ...styles.modalBody, marginTop: anim }}
+        style={{ ...styles.modalBody, marginTop: anim, backgroundColor }}
         {..._panResponder.panHandlers}
       >
         <View style={styles.modalTitle}>
-          <Text style={theme.heading1}>搜索</Text>
+          <Text style={{ ...theme.heading1 }}>搜索</Text>
 
           <TouchableOpacity
             activeOpacity={0.6}
@@ -105,7 +108,7 @@ const FlexibleModal = props => {
               onClose(!modalVisible);
             }}
           >
-            <Text style={styles.textStyle}>关闭</Text>
+            <Text style={{ ...styles.textStyle }}>关闭</Text>
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -136,7 +139,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textStyle: {
-    color: '#333',
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -147,4 +149,4 @@ FlexibleModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withTheme(FlexibleModal);
+export default FlexibleModal;
