@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View, StatusBar } from 'react-native';
 import { withTheme } from 'react-native-paper';
 
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
@@ -27,9 +27,9 @@ const renderScene = SceneMap({
 
 });
 
-const Notifications = (props)=>{
+const Notifications = (props) => {
 
-  const theme = props.theme
+  const theme = props.theme;
 
 
   const [index, setIndex] = React.useState(0);
@@ -48,9 +48,9 @@ const Notifications = (props)=>{
     />
   );
 
-  return(
-    <View style={{flex:1}}>
-
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={{ backgroundColor: theme.colors.primary, height: StatusBar.currentHeight }} />
 
       <TabView
         renderTabBar={renderTabBar}
@@ -62,16 +62,16 @@ const Notifications = (props)=>{
       />
 
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-backgroundColor:'#ccc'
+    backgroundColor: '#ccc',
   },
   scene: {
     flex: 1,
   },
 });
 
-export default withTheme(Notifications)
+export default withTheme(Notifications);

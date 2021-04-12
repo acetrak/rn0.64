@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {   Text,useTheme } from 'react-native-paper';
+import { Text, useTheme, Button } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
@@ -101,15 +101,13 @@ const FlexibleModal = props => {
         <View style={styles.modalTitle}>
           <Text style={{ ...theme.heading1 }}>搜索</Text>
 
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={e => {
-              e.preventDefault();
+          <Button
+            onPress={() => {
               onClose(!modalVisible);
             }}
-          >
-            <Text style={{ ...styles.textStyle }}>关闭</Text>
-          </TouchableOpacity>
+            color={textColor}
+          >关闭</Button>
+
         </View>
       </Animated.View>
     </Modal>
@@ -134,7 +132,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 22,
+    paddingHorizontal: 8,
     paddingVertical: 18,
     alignItems: 'center',
   },

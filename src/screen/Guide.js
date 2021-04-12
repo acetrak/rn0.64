@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import { Appbar, Avatar, Button, Card, Paragraph, Searchbar, TextInput, Title } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
@@ -29,16 +29,11 @@ export default function Guide() {
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1 }}>
-      <Appbar.Header>
-
+      <Appbar.Header statusBarHeight={StatusBar.currentHeight}>
         <Appbar.Content title="Guide" />
-
       </Appbar.Header>
 
       <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
-
-
-
         <TextInput
           left={<TextInput.Icon name="alarm" />}
           right={<TextInput.Icon name="close" />}
@@ -61,8 +56,8 @@ export default function Guide() {
         <Button
           style={styles.mb10}
           mode="contained"
-          onPress={() => navigation.navigate('Setting')}
-        >导航到Setting页面</Button>
+          onPress={() => navigation.navigate('PlayList')}
+        >导航到PlayList页面</Button>
 
 
         <MyComponent />

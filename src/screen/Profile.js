@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableNativeFeedback, View } from 'react-native';
+import { StatusBar, StyleSheet, TouchableNativeFeedback, View } from 'react-native';
 import { Appbar, Button, Chip, Snackbar, Text } from 'react-native-paper';
 
 
@@ -15,15 +15,13 @@ export default function Profile() {
 
   return (
     <View style={{flex: 1}}>
-      <Appbar.Header>
+      <Appbar.Header statusBarHeight={StatusBar.currentHeight}>
         <Appbar.Content title="Profile" />
         <Appbar.Action icon="magnify" onPress={_handleSearch} />
         <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
       </Appbar.Header>
 
       <View style={styles.body}>
-
-
         <Button
           style={styles.mb10}
           mode="contained"

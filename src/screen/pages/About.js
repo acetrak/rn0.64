@@ -2,9 +2,7 @@ import React from 'react';
 import { StatusBar, View } from 'react-native';
 import { Appbar, Text } from 'react-native-paper';
 
-export default function(props) {
-
-  const { navigation } = props;
+export default function ({navigation}) {
   return (
     <View>
       <Appbar.Header statusBarHeight={StatusBar.currentHeight}>
@@ -13,11 +11,11 @@ export default function(props) {
             navigation.goBack();
           }}
         />
-        <Appbar.Content title="Setting" />
+        <Appbar.Content title="About" />
 
       </Appbar.Header>
 
-      <Text> Setting</Text>
+      <Text> About</Text>
     </View>
   );
 }

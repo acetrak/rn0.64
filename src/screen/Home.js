@@ -15,7 +15,7 @@ const MyComponent = () => (
       <Title>Card title</Title>
       <Paragraph>Card content</Paragraph>
     </Card.Content>
-    <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
+    <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
     <Card.Actions>
       <Button>Cancel</Button>
       <Button>Ok</Button>
@@ -25,7 +25,7 @@ const MyComponent = () => (
 
 
 function Home(props) {
-  const {navigation} = props;
+  const { navigation } = props;
 
   const [visible, setVisible] = useState(false);
   const [isSwitchOn, setIsSwitchOn] = React.useState(props.theme.theme === 'dark');
@@ -44,29 +44,29 @@ function Home(props) {
 
   const keyExtractor = (item, index) => index.toString();
 
-  const renderItem = ({item, separators}) => (
+  const renderItem = ({ item, separators }) => (
     <List.Item
-      onPress={()=>{}}
+      onPress={() => {
+      }}
       title={item.album.name}
       description={item.artists.map(o => o.name).join('-')}
-      left={props => <Avatar.Image {...props} source={{uri: item.album.artist.img1v1Url}} />}
+      left={props => <Avatar.Image {...props} source={{ uri: item.album.artist.img1v1Url }} />}
     />
   );
 
   const onSwitchChange = () => {
 
-    props.dispatch(toggleThemeAction({theme: isSwitchOn ? 'light' : 'dark'})).then(() => {
+    props.dispatch(toggleThemeAction({ theme: isSwitchOn ? 'light' : 'dark' })).then(() => {
       setIsSwitchOn(!isSwitchOn);
     });
 
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
 
-
-      <StatusBar backgroundColor="#6200ee" />
-      <Appbar.Header>
+      <StatusBar translucent networkActivityIndicatorVisible backgroundColor="rgba(0,0,0,0.2)" />
+      <Appbar.Header statusBarHeight={StatusBar.currentHeight}>
 
         <Appbar.Content title="Home" />
         <Appbar.Action icon="magnify" />
@@ -76,24 +76,23 @@ function Home(props) {
       <View style={styles.body}>
 
 
+        <View style={{ paddingHorizontal: 15 }}>
+          <View style={styles.rowBetween}>
+            <Text>黑暗模式</Text>
+            <Switch value={isSwitchOn} onValueChange={onSwitchChange} />
+          </View>
 
-       <View style={{paddingHorizontal:15}}>
-         <View style={styles.rowBetween}>
-           <Text>黑暗模式</Text>
-           <Switch value={isSwitchOn} onValueChange={onSwitchChange} />
-         </View>
 
+          <Button
+            style={styles.mb10}
+            mode="contained"
+            onPress={() => navigation.navigate('PlayList')}
+          >导航到PlayList页面</Button>
 
-         <Button
-           style={styles.mb10}
-           mode="contained"
-           onPress={() => navigation.navigate('Setting')}
-         >导航到Setting页面</Button>
+          <Button style={styles.mb10} disabled={list.length} mode="contained" onPress={fetch}>fetch</Button>
 
-         <Button style={styles.mb10} disabled={list.length} mode="contained" onPress={fetch}>fetch</Button>
-
-         <Button style={styles.mb10} mode="contained" onPress={() => setVisible(!visible)}>open modal</Button>
-       </View>
+          <Button style={styles.mb10} mode="contained" onPress={() => setVisible(!visible)}>open modal</Button>
+        </View>
 
         {/*<MyComponent />*/}
         <FlatList
@@ -114,8 +113,8 @@ const styles = StyleSheet.create({
     flex: 1,
 
   },
-  mb10:{
-    marginBottom:10
+  mb10: {
+    marginBottom: 10,
   },
   rowBetween: {
     flexDirection: 'row',

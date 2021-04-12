@@ -40,9 +40,9 @@ const dark = {
   roundness: 4,
   mode: 'exact',
   colors: {
-    primary: '#6200ee',
+    primary: '#0074c0',
     accent: '#03dac4',
-    background: '#151515',
+    background: '#2b2b2b',
     surface: '#151515',
     error: '#B00020',
     text: Colors.white,

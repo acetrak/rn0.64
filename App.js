@@ -8,21 +8,30 @@ import { connect, Provider } from 'react-redux';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { get } from 'lodash';
+import {
+  createDrawerNavigator,
+} from '@react-navigation/drawer';
 
 import store from './src/store';
 import themePattern from './src/theme';
 import { toggleThemeAction } from './src/store/actions';
 import { getData } from './src/utils/utils';
-
+import CustomDrawerContent from './src/components/CustomDrawerContent';
 // screen
 import HomeScreen from './src/screen/Home';
 import GuideScreen from './src/screen/Guide';
 import ProfileScreen from './src/screen/Profile';
 import NotificationsScreen from './src/screen/Notifications';
 import SettingScreen from './src/screen/pages/Setting';
+import AboutScreen from './src/screen/pages/About';
+import PlayListScreen from './src/screen/pages/PlayList';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+
+
 
 function HomeTabs({ theme }) {
 
@@ -31,13 +40,13 @@ function HomeTabs({ theme }) {
 
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Wel"
       activeColor={activeColor}
       barStyle={{ backgroundColor: barBackgroundColor }}
       inactiveColor="#fff"
     >
       <Tab.Screen
-        name="Home"
+        name="Wel"
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
@@ -86,22 +95,39 @@ function HomeTabs({ theme }) {
 }
 
 const Layout = (props) => {
-  const themeType = props.theme;
+  const themeType = get(props, 'theme', 'light');
 
-  console.log('Layout', props);
   const theme = React.useMemo(
     () => themePattern[themeType],
     [themeType],
   );
 
-  const Tabs = () => <HomeTabs theme={theme} />;
 
   React.useEffect(async () => {
     const local = await getData('theme');
+    console.log({local})
     if (['light', 'dark'].includes(local)) {
       props.dispatch(toggleThemeAction({ theme: local }));
     }
   }, []);
+
+  const Root = () => {
+
+    return (
+      <Drawer.Navigator
+        initialRouteName="Home"
+        backBehavior="initialRoute"
+        drawerStyle={{
+          backgroundColor: get(theme, 'colors.surface', 'rgb(242, 242, 242)'),
+        }}
+        drawerContent={CustomDrawerContent}
+      >
+        <Drawer.Screen name="Home" component={HomeTabs}/>
+        <Drawer.Screen name="Setting" component={SettingScreen} />
+        <Drawer.Screen name="About" component={AboutScreen} />
+      </Drawer.Navigator>
+    );
+  };
 
   const navigationTheme = {
     ...DefaultTheme,
@@ -118,15 +144,18 @@ const Layout = (props) => {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <NavigationContainer theme={navigationTheme}>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator>
             <Stack.Screen
-              name="Home"
-              options={{ headerShown: false }}
-              component={Tabs}
+              name="Root"
+              component={Root}
+              options={{
+                headerShown: false,
+              }}
             />
+
             {/*在以下添加其它路由*/}
             {/*https://reactnavigation.org/docs/hiding-tabbar-in-screens/*/}
-            <Stack.Screen name="Setting" component={SettingScreen} />
+            <Stack.Screen name="PlayList" component={PlayListScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
