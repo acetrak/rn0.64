@@ -5,12 +5,14 @@ import todos from './reducers/todos';
 import muc from './reducers/muc';
 import visibilityFilter from './reducers/visibilityFilter';
 import theme from './reducers/theme';
+import home from './reducers/home';
 
 const appStore = combineReducers({
   todos,
   visibilityFilter,
   muc,
-  theme
+  theme,
+  home
 });
 
 export default createStore(appStore, applyMiddleware(thunk));

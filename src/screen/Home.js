@@ -1,27 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, StatusBar, StyleSheet, View } from 'react-native';
-import { Appbar, Avatar, Button, Card, List, Paragraph, Switch, Text, Title } from 'react-native-paper';
+import { Avatar, Button, List, Switch, Text } from 'react-native-paper';
 import { searchAction, toggleThemeAction } from '../store/actions';
 import FlexibleModal from '../components/FlexibleModal';
-import Setting from './pages/Setting';
-
-const LeftContent = props => <Avatar.Icon {...props} icon="folder" />;
-
-const MyComponent = () => (
-  <Card>
-    <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
-    <Card.Content>
-      <Title>Card title</Title>
-      <Paragraph>Card content</Paragraph>
-    </Card.Content>
-    <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-    <Card.Actions>
-      <Button>Cancel</Button>
-      <Button>Ok</Button>
-    </Card.Actions>
-  </Card>
-);
+import HomeHeader from '../components/HomeHeader';
+import HeaderCarousel from '../components/HeaderCarousel';
 
 
 function Home(props) {
@@ -66,16 +50,11 @@ function Home(props) {
     <View style={{ flex: 1 }}>
 
       <StatusBar translucent networkActivityIndicatorVisible backgroundColor="rgba(0,0,0,0.2)" />
-      <Appbar.Header statusBarHeight={StatusBar.currentHeight}>
 
-        <Appbar.Content title="Home" />
-        <Appbar.Action icon="magnify" />
-        <Appbar.Action icon="dots-vertical" />
-      </Appbar.Header>
+      <HomeHeader />
+      <HeaderCarousel />
 
       <View style={styles.body}>
-
-
         <View style={{ paddingHorizontal: 15 }}>
           <View style={styles.rowBetween}>
             <Text>黑暗模式</Text>

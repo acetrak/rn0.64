@@ -2,21 +2,20 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as ThemeProvider } from 'react-native-paper';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect, Provider } from 'react-redux';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { get } from 'lodash';
-import {
-  createDrawerNavigator,
-} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import store from './src/store';
 import themePattern from './src/theme';
 import { toggleThemeAction } from './src/store/actions';
 import { getData } from './src/utils/utils';
 import CustomDrawerContent from './src/components/CustomDrawerContent';
+
 // screen
 import HomeScreen from './src/screen/Home';
 import GuideScreen from './src/screen/Guide';
@@ -26,11 +25,10 @@ import SettingScreen from './src/screen/pages/Setting';
 import AboutScreen from './src/screen/pages/About';
 import PlayListScreen from './src/screen/pages/PlayList';
 
+
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-
-
 
 
 function HomeTabs({ theme }) {
@@ -94,6 +92,7 @@ function HomeTabs({ theme }) {
   );
 }
 
+
 const Layout = (props) => {
   const themeType = get(props, 'theme', 'light');
 
@@ -102,10 +101,8 @@ const Layout = (props) => {
     [themeType],
   );
 
-
   React.useEffect(async () => {
     const local = await getData('theme');
-    console.log({local})
     if (['light', 'dark'].includes(local)) {
       props.dispatch(toggleThemeAction({ theme: local }));
     }
@@ -122,7 +119,10 @@ const Layout = (props) => {
         }}
         drawerContent={CustomDrawerContent}
       >
-        <Drawer.Screen name="Home" component={HomeTabs}/>
+        <Drawer.Screen
+          name="Home"
+          component={HomeTabs}
+        />
         <Drawer.Screen name="Setting" component={SettingScreen} />
         <Drawer.Screen name="About" component={AboutScreen} />
       </Drawer.Navigator>

@@ -32,8 +32,8 @@ const FlexibleModal = props => {
     onStartShouldSetPanResponder: (evt, gestureState) => true,
     // 使得监听下的事件可以被识别
     onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
-    onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+    onMoveShouldSetPanResponder: (evt, gestureState) => false,
+    onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
     onPanResponderGrant: (evt, gestureState) => {
       // 开始手势操作。给用户一些视觉反馈，让他们知道发生了什么事情！

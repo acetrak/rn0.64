@@ -10,3 +10,11 @@ export function search() {
     },
   });
 }
+
+export function private_content() {
+  return request({
+    url: '/personalized/privatecontent',
+    method: 'GET',
+  });
+}
+

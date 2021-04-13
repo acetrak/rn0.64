@@ -48,7 +48,7 @@ const dark = {
     text: Colors.white,
     onSurface: '#151515',
     disabled: color(Colors.black).alpha(0.26).rgb().string(),
-    placeholder: color(Colors.black).alpha(0.54).rgb().string(),
+    placeholder: color(Colors.white).alpha(0.74).rgb().string(),
     backdrop: color(Colors.black).alpha(0.5).rgb().string(),
     notification: Colors.pinkA400,
     body:'#080808',

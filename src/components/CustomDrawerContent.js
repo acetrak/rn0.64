@@ -36,7 +36,7 @@ function ItemGroup(props) {
 
 function CustomDrawerContent(props) {
 
-  const { navigation } = props;
+  const { navigation, } = props;
   const gutter = 8;
   // 无法在此使用hook
   return (

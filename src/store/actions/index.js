@@ -1,8 +1,9 @@
-import {search} from '../../services/search';
+import { search, private_content } from '../../services/search';
 import to from 'await-to-js';
-import {ToastAndroid} from 'react-native';
-import {storeData} from '../../utils/utils';
+import { ToastAndroid } from 'react-native';
+import { storeData } from '../../utils/utils';
 import * as ACTION from '../actionType';
+import { get } from 'lodash';
 
 let nextTodoId = 0;
 export const addTodo = text => {
@@ -44,6 +45,21 @@ export const searchAction = () => async dispatch => {
   dispatch({
     type: 'ADD',
     songs: res.result.songs,
+  });
+};
+
+export const privateContentAction = () => async dispatch => {
+
+  const [err, res] = await to(private_content());
+
+  if (err) {
+    console.log('An error occurred.', err);
+    return;
+  }
+
+  dispatch({
+    type: ACTION.PRIVATE_CONTENT,
+    data: get(res, 'result', []),
   });
 };
 
