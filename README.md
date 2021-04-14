@@ -85,3 +85,45 @@ that your baundle 'index.android.bundle' is packaged correctly for release
 - 本地存储 react-native-async-storage/async-storage https://react-native-async-storage.github.io/async-storage/docs/install
 - 主题切换，使用react-native-paper UI提供的主题 https://callstack.github.io/react-native-paper/theming.html
 - 使用新的 Hermes 引擎 https://www.react-native.cn/docs/hermes
+
+
+### 在新项目使用
+
+1. 复制package中的依赖（包括开发依赖）
+2. 复制 babel.config.js
+3. 复制 App.js
+4. 复制src目录
+
+到此就可以正常运行了。
+
+图标不显示？请在项目根目录下执行
+
+```bash
+react-native link react-native-vector-icons
+```
+
+以下是可选配置
+5. 使用 Hermes 引擎，请参考https://www.react-native.cn/docs/hermes
+6. 打包， 请参考 https://www.react-native.cn/docs/signed-apk-android
+
+#### 常见问题：
+
+1. 如何修改APP显示名称？
+
+Android下：打开 android/app/src/main/res/values/strings.xml 即可看到配置中的app_name，修改它即可。
+
+2. 如何修改App图标？ 
+
+Android下：打开 android/app/src/main/res
+
+mipmap开头的文件夹就是存放App图标的地方，按照尺寸替换就行
+
+
+以上，如有问题cd android 执行
+
+```bash
+gradlew clean
+```
+
+重新运行
+
